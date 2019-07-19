@@ -8,11 +8,11 @@ The [Authentication](../usage/ci-configuration.md#authentication) environment va
 
 GitLab CI supports [Pipelines](https://docs.gitlab.com/ee/ci/pipelines.html) allowing to test on multiple Node versions and publishing a release only when all test pass.
 
-**Note**: The publish pipeline must run a [Node >= 8 version](../support/FAQ.md#why-does-semantic-release-require-node-version--83).
+**Note**: The publish pipeline must run a Node >= 10 version.
 
 ### `.gitlab-ci.yml` configuration for Node projects
 
-This example is a minimal configuration for **semantic-release** with a build running Node 6 and 8. See [GitLab CI - Configuration of your jobs with .gitlab-ci.yml](https://docs.gitlab.com/ee/ci/yaml/README.html) for additional configuration options.
+This example is a minimal configuration for **semantic-release** with a build running Node 10 and 12. See [GitLab CI - Configuration of your jobs with .gitlab-ci.yml](https://docs.gitlab.com/ee/ci/yaml/README.html) for additional configuration options.
 
 **Note**: The`semantic-release` execution command varies depending if you are using a [local](../usage/installation.md#local-installation) or [global](../usage/installation.md#global-installation) **semantic-release** installation.
 
@@ -25,20 +25,20 @@ stages:
 before_script:
   - npm install
 
-node:6:
-  image: node:6
+node:10:
+  image: node:10
   stage: test
   script:
     - npm test
 
-node:8:
-  image: node:8
+node:12:
+  image: node:12
   stage: test
   script:
     - npm test
 
 publish:
-  image: node:8
+  image: node:10
   stage: release
   script:
     - npx semantic-release

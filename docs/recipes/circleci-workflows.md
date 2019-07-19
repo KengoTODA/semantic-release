@@ -10,28 +10,28 @@ Alternatively, the default `NPM_TOKEN` and `GH_TOKEN` can be easily [setup with 
 
 ### `.circleci/config.yml` configuration for multiple Node jobs
 
-This example is a minimal configuration for **semantic-release** with a build running Node 6 and 8. See [CircleCI documentation](https://circleci.com/docs/2.0) for additional configuration options.
+This example is a minimal configuration for **semantic-release** with a build running Node 10 and 12. See [CircleCI documentation](https://circleci.com/docs/2.0) for additional configuration options.
 
-This example create the workflows `test_node_4`, `test_node_6`, `test_node_8` and `release`. The release workflows will [run `semantic-release` only after the all the `test_node_*` are successful](../usage/ci-configuration.md#run-semantic-release-only-after-all-tests-succeeded).
+This example create the workflows `test_node_10`, `test_node_12` and `release`. The release workflows will [run `semantic-release` only after the all the `test_node_*` are successful](../usage/ci-configuration.md#run-semantic-release-only-after-all-tests-succeeded).
 
 ```yaml
 version: 2
 jobs:
-  test_node_6:
+  test_node_10:
     docker:
-      - image: circleci/node:6
+      - image: circleci/node:10
     steps:
       # Configure your test steps here (checkout, npm install, cache management, tests etc...)
 
-  test_node_8:
+  test_node_12:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:12
     steps:
       # Configure your test steps here (checkout, npm install, cache management, tests etc...)
 
   release:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
     steps:
       - checkout
       - run: npm install
@@ -44,12 +44,12 @@ workflows:
   test_and_release:
     # Run the test jobs first, then the release only when all the test jobs are successful
     jobs:
-      - test_node_6
-      - test_node_8
+      - test_node_10
+      - test_node_12
       - release:
           requires:
-            - test_node_6
-            - test_node_8
+            - test_node_10
+            - test_node_12
 ```
 
 ### `package.json` configuration for multiple Node jobs
